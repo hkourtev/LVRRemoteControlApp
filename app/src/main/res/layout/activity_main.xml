@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:text="Action 1"
+        android:textSize="30sp"
         android:onClick="action1"
         android:id="@+id/btnAction1"
         android:layout_gravity="center_horizontal" />
@@ -22,14 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:text="Action 2"
+        android:textSize="30sp"
         android:onClick="action2"
         android:id="@+id/btnAction2"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:text="Clear Data"
+        android:textSize="30sp"
         android:onClick="clear"
         android:id="@+id/btnClear"
         android:layout_gravity="center_horizontal" />
