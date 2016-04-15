@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -37,8 +38,64 @@ public class SendData extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... arg0) {
         int action = Integer.parseInt(arg0[0]);
 
-        //String link = "http://ruccs.rutgers.edu/~hkourtev/attila/index.php";
-        String link = "http://128.6.51.112/~hkourtev/attila/index.php";
+        //String link = "http://rci.rutgers.edu/~hkourtev/attila/index.php";
+        String link = "http://kourtev.com/attila/exp-app/index.php";
+        try {
+            URL url = new URL(link);
+            OutputStream os;
+            HashMap<String, String> postData = new HashMap<>();
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+            connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+            connection.setDoOutput(true);
+
+            try {
+                os = new DataOutputStream(connection.getOutputStream());
+
+                switch (action) {
+                    case 0:
+                        // clear
+                        postData.put("clear", "0");
+                        break;
+                    case 1:
+                        // action 1
+                        postData.put("action1", "1");
+                        break;
+                    case 2:
+                        // action 2
+                        postData.put("action2", "2");
+                        break;
+                }
+
+                os.write(getPostDataString(postData).getBytes());
+                os.flush();
+                os.close();
+
+                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    // mistake - popup toast to let person know
+                    Toast.makeText(context, "Oh oh, something went wrong", Toast.LENGTH_LONG).show();
+                }
+            } catch (java.io.IOException e) {
+                return new String("Exception: " + e.getMessage());
+            } finally {
+                connection.disconnect();
+            }
+        } catch (java.io.IOException e) {
+            return new String("Exception: " + e.getMessage());
+        }
+
+        return "";
+    }
+
+
+
+    protected String doInBackgroundOld(String... arg0) {
+        int action = Integer.parseInt(arg0[0]);
+
+        //String link = "http://rci.rutgers.edu/~hkourtev/attila/index.php";
+        String link = "http://kourtev.com/attila/exp-app/¢";
         try {
             URL url = new URL(link);
             OutputStream os;
@@ -94,6 +151,11 @@ public class SendData extends AsyncTask<String,Void,String> {
         }
 
         return "";
+    }
+
+
+    protected void onProgressUpdate(Integer... progress){
+        //pb.setProgress(progress[0]);
     }
 
 
